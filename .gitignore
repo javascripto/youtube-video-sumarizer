@@ -1,0 +1,16 @@
+# Ignorar o ambiente virtual
+venv/
+
+# Ignorar o arquivo de configuração de ambiente
+.env
+
+# Ignorar arquivos temporários
+__pycache__/
+*.pyc
+*.pyo
+subtitles/
+
+# Ignorar arquivos de logs e outros arquivos temporários
+*.log
+*.tmp
+tempCodeRunnerFile.*

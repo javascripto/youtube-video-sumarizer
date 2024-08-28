@@ -1,0 +1,8 @@
+Flask
+groq
+yt-dlp
+requests
+python-dotenv
+gtts
+pygame
+streamlit

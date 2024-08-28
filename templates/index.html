@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo de Vídeos do YouTube</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #loading {
+            display: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Resumo de Vídeos do YouTube</h1>
+    <form id="summaryForm">
+        <label for="urls">Insira os URLs dos vídeos do YouTube (um por linha):</label><br>
+        <textarea id="urls" name="urls" rows="10" cols="50"></textarea><br>
+        <input type="submit" value="Gerar Resumo" id="submitBtn">
+    </form>
+
+    <p id="loading">Gerando resumos, por favor, aguarde...</p>
+
+    <div id="results">
+        <!-- Resultados dos resumos serão exibidos aqui -->
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#summaryForm').on('submit', function(e) {
+                e.preventDefault(); // Evitar o envio do formulário normal
+                
+                // Desativar o botão e mostrar o loading
+                $('#submitBtn').attr('disabled', 'disabled');
+                $('#loading').show();
+                $('#results').empty(); // Limpar resultados anteriores
+
+                $.ajax({
+                    url: '/',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#loading').hide();
+                        $('#submitBtn').removeAttr('disabled');
+                        
+                        if (response.length > 0) {
+                            response.forEach(function(item) {
+                                $('#results').append('<p><strong>URL:</strong> ' + item.url + '</p>');
+                                $('#results').append('<p><strong>Resumo:</strong> ' + item.summary + '</p>');
+                                $('#results').append('<hr>');
+                            });
+                        } else {
+                            $('#results').append('<p>Nenhum resumo foi gerado.</p>');
+                        }
+                    },
+                    error: function() {
+                        $('#loading').hide();
+                        $('#submitBtn').removeAttr('disabled');
+                        $('#results').append('<p>Ocorreu um erro ao gerar os resumos.</p>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
